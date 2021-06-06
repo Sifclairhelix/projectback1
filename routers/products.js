@@ -1,27 +1,15 @@
-/**
-|--------------------------------------------------
-| We also need to import the product form the models
-|--------------------------------------------------
-*/
+
 
 const { Product } = require("../models/product");
 
-/**
-|--------------------------------------------------
-| The var could be const but the documentation shows this example
-|--------------------------------------------------
-*/
+
 
 var express = require("express");
 const { Category } = require("../models/category");
 const mongoose = require("mongoose");
 const router = express.Router();
 
-/**
-|--------------------------------------------------
-| // http://localhost:3000/api/v1/products
-|--------------------------------------------------
-*/
+
 router.get(`/`, async (req, res) => {
 	let Filtering = {};
 	if (req.query.categories) {
@@ -35,29 +23,9 @@ router.get(`/`, async (req, res) => {
 	}
 	res.send(productList);
 
-	/**
-    |--------------------------------------------------
-    | Another method below to manage promises
-    |--------------------------------------------------
-    */
-	// productList
-	// 	.then((getcreatedProduct) => {
-	// 		res.status(201).json(getcreatedProduct);
-	// 	})
-	// 	.catch((error) => {
-	// 		res.status(500).json({
-	// 			error: error,
-	// 			success: false,
-	// 		});
-	// 	});
-	// res.send("Hello what up testing this method not sure whether it works");
 });
 
-/**
-|--------------------------------------------------
-| Get request for only one product
-|--------------------------------------------------
-*/
+
 
 router.get(`/:id`, async (req, res) => {
 	const product = await Product.findById(req.params.id); //.populate("category");
@@ -68,11 +36,7 @@ router.get(`/:id`, async (req, res) => {
 	res.send(product);
 });
 
-/**
-|--------------------------------------------------
-| This method below is just showing how to post, example showing to post to a database, the product comes from a database
-|--------------------------------------------------
-*/
+
 
 router.post(`/`, async (req, res) => {
 	const category = await Category.findById(req.body.category);
@@ -83,13 +47,13 @@ router.post(`/`, async (req, res) => {
 	let product = new Product({
 		name: req.body.name,
 		description: req.body.description,
-		// richDescription: req.body.richDescription,
+
 		image: req.body.image,
 		brand: req.body.brand,
 		price: req.body.price,
 		category: req.body.category,
 		countInStock: req.body.countInStock,
-		// rating: req.body.rating,
+
 		numReview: req.body.numReview,
 		isFeatured: req.body.isFeatured,
 	});
@@ -113,22 +77,6 @@ router.post(`/`, async (req, res) => {
 	// res.send(newProduct);
 });
 
-/**
-|--------------------------------------------------
-| Updating the products dont know if this will be necessary, the 
-|       {
-|			new: true,
-|		}
-|
-|       the above statment can be removed
-|
-|   if (!mongoose.isValidObjectId(req.params.id)) {
-|		res.status(400).send("Not valid Id");
-|	}
-
-might be able to remove that
-|--------------------------------------------------
-*/
 
 router.put("/:id", async (req, res) => {
 	if (!mongoose.isValidObjectId(req.params.id)) {
@@ -142,13 +90,11 @@ router.put("/:id", async (req, res) => {
 		{
 			name: req.body.name,
 			description: req.body.description,
-			// richDescription: req.body.richDescription,
 			image: req.body.image,
 			brand: req.body.brand,
 			price: req.body.price,
 			category: req.body.category,
 			countInStock: req.body.countInStock,
-			// rating: req.body.rating,
 			numReview: req.body.numReview,
 			isFeatured: req.body.isFeatured,
 		},
